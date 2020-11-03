@@ -1,0 +1,165 @@
+div.contents_newTitle {
+    width: 96%;
+    height: 3%;
+    color: #2e2e2e;
+    margin: 20px 0 10px 0;
+    font-size: 16px;
+}
+
+
+
+/* account */
+.bottom-left-box.account-left-box,
+.bottom-left-box.site-left-box,
+.bottom-left-box.server-left-box,
+.bottom-left-box.sensor-left-box{
+    width: 51%;
+}
+.bottom-right-box.account-right-box,
+.bottom-right-box.site-right-box,
+.bottom-right-box.server-right-box,
+.bottom-right-box.sensor-right-box {
+    width: 47%;
+}
+div#account_grid {
+    width: 97%;
+    height: 92%;
+    margin-left: 15px;
+}
+div#account_form{
+    width: 96%;
+    height: 76%;
+}
+/* accountForm */
+button#overlap-btn {
+    width: 80px;
+    height: 24px;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+button#overlap-btn:hover {
+    cursor: pointer;
+}
+.w2ui-page.page-0.w2ui-account-form,
+.w2ui-page.page-0.w2ui-site-form,
+.w2ui-page.page-0.w2ui-server-form,
+.w2ui-page.page-0.w2ui-sensor-form {
+    margin-top: 0px !important;
+}
+.w2ui-account-form .w2ui-field,
+.w2ui-site-form .w2ui-field,
+.w2ui-server-form .w2ui-field,
+.w2ui-sensor-form .w2ui-field {
+    margin-top: 13px !important;
+}
+.w2ui-account-form>div,
+.w2ui-site-form>div,
+.w2ui-server-form>div,
+.w2ui-sensor-form>div{
+    
+    width: 80%;
+    margin-left: 10%;
+}
+.w2ui-page.w2ui-account-form input[type='text'],
+.w2ui-page.w2ui-account-form input[type='password']{
+    width: 360px !important;
+}
+.w2ui-page.w2ui-account-form .w2ui-field span,
+.w2ui-page.w2ui-site-form .w2ui-field span,
+.w2ui-page.w2ui-server-form .w2ui-field span,
+.w2ui-page.w2ui-sensor-form .w2ui-field span{
+    margin-top: 5px;
+    font-size: 13px;
+}
+.w2ui-page .w2ui-field span.error_text {
+    color: #ff0000;
+}
+.w2ui-page .w2ui-field span.success_text {
+    color: #44b71e;
+}
+
+.w2ui-account-button.w2ui-buttons .w2ui-btn {
+    float: left;
+}
+.w2ui-account-button.w2ui-buttons  {
+    display: flex;
+    justify-content: center;
+}
+.w2ui-account-form input#user_id {
+    width: 181px !important;
+}
+.w2ui-account-form input#user_id {
+    width: 181px !important;
+}
+
+/* siteInfo */
+div#site_grid {
+    width: 97%;
+    height: 92%;
+    margin-left: 15px;
+}
+div#site_form {
+    width: 96%;
+    height: 43%;
+}
+
+div#newSite_grid{
+    width: 96%;
+    height: 37%;
+}
+.contents_form#site_form .w2ui-page.page-0 {
+    padding-top: 50px;
+}
+
+.w2ui-page.w2ui-site-form input[type='text'] {
+    width: 360px !important;
+}
+
+/* serverInfo */
+div#server_grid {
+    width: 97%;
+    height: 92%;
+    margin-left: 15px;
+}
+div#server_form {
+    width: 96%;
+    height: 45%;
+}
+
+div#newServer_grid {
+    width: 96%;
+    height: 36%;
+}
+.contents_form#server_form .w2ui-page.page-0 {
+    padding-top: 50px;
+}
+
+.w2ui-page.w2ui-server-form input[type='text'] {
+    width: 360px !important;
+}
+.w2ui-page.w2ui-server-form input[name='address'] {
+    width: 313px !important;
+}
+
+/* sensorInfo */
+div#sensor_grid {
+    width: 97%;
+    height: 92%;
+    margin-left: 15px;
+}
+div#sensor_form {
+    width: 96%;
+    height: 55%;
+}
+
+div#newSensor_grid {
+    width: 96%;
+    height: 29%;
+}
+.contents_form#sensor_form .w2ui-page.page-0 {
+    padding-top: 15px;
+}
+
+.w2ui-page.w2ui-sensor-form input[type='text'] {
+    width: 360px !important;
+}

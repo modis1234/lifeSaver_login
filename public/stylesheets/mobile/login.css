@@ -1,0 +1,117 @@
+.top-component {
+    width: 100%;
+    height: 90%;
+}
+
+.bottom-componet {
+    width: 100%;
+    height: 10%;
+    background-color: #2e2e2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-component {
+    width: 100%;
+    height: 100%;
+    background-color: #2e2e2e;
+}
+
+.contents-box {
+    width: 100%;
+    height: 60.5%;
+    /* background-color: ivory; */
+    position: absolute;
+    top: 18%;
+    text-align: center;
+}
+
+.login-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 17%;
+}
+
+#lifesaver-logo {
+    width: 274px;
+    height: 81px;
+}
+
+div#login-form {
+    width: 86.3%;
+}
+
+.input_n {
+    height: 60px;
+    font-size: 1em;
+    color: #0049C7 !important;
+
+}
+
+input.input_n::placeholder {
+    padding-left: 23px;
+    font-size: 20px;
+    color: #8F8F8F;
+    opacity: 1;
+}
+
+.input-box>.ui-input-text {
+    margin-top: 10px;
+}
+
+#submit-btn:hover {
+    cursor: pointer;
+}
+
+.submit-box {
+    margin-top: 2.2rem;
+}
+
+.submit-box .ui-btn {
+    height: 35px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 5px;
+}
+
+span#login-msg {
+    color: #ed1f24;
+    text-shadow: 0 0 #ed1f24;
+}
+
+#openworks-logo {
+    width: 163px;
+    height: 17px;
+}
+
+
+/* @media screen and (max-height: 560px) {
+    .component {
+        height: 100%;
+    }
+    
+    .top-component {
+        height: 90%;
+    }
+    .contents-box {
+        top: 10%;
+    }
+} */
+
+
+@media screen and (max-height: 600px) {
+    .component {
+        width: 100%;
+        height: 605px; 
+        position: absolute;
+    }
+}
+
+@media screen and (min-width: 720px) {
+    .login-box {
+        margin-top: 5vw;
+    }
+}

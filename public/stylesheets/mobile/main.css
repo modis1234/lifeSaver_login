@@ -1,0 +1,25 @@
+@font-face {
+    font-family: NotoSansKR-Medium;
+    src: url(../../font/Noto_Sans_KR/NotoSansKR-Regular.otf);
+}
+
+body.ui-mobile-viewport.ui-overlay-a {
+    background-color: #2e2e2e;
+    margin: 0px !important;
+    font-family: NotoSansKR-Medium;
+}
+
+.component {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.component-box{
+    width: 100%;
+    height: 100%;
+}
+
+span{
+    text-shadow: 0 0 black;
+}

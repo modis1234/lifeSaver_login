@@ -1,0 +1,42 @@
+<div class="w2ui-page page-0 w2ui-sensor-form">
+    <div class="w2ui-field">
+        <label>비고</label>
+        <div><input name="location"></div>
+    </div>
+    <!-- <div class="w2ui-field">
+        <label>관리번호</label>
+        <div><input type="text" name="device_index" placeholder="가스장비의 주기 된 시리얼번호를 입력하세요."></div>
+    </div> -->
+    <div class="w2ui-field">
+        <label>S/N</label>
+        <div>
+            <input type="text" name="sensor_index" placeholder="PHPoC의 sensor_index에 동일한 값을 입력해야합니다.">
+            <button class="w2ui-btn-green" id="overlap-btn" ischecked="false">중복체크</button>     
+            <button class="w2ui-btn" id="reInput-btn"  style="display: none;">다시입력</button>                   
+            <span id="overlap-error" class="error_text" style="display: none;">*입력하신 센서번호는 존재합니다. 다시 입력하세요.</span>
+            <span id="overlap-success" class="success_text" style="display: none;">*입력하신 센서번호는 사용 가능 합니다.</span>
+        </div>
+    </div>
+    <div class="w2ui-field">
+        <label>VERSION</label>
+        <div> <input type="text" name="version"></div>
+    </div>
+    <div class="w2ui-field">
+        <label>센서명</label>
+        <div> <input type="text" name="name"></div>
+    </div>
+    <div class="w2ui-field">
+        <label>현장</label>
+        <div> <input type="text" name="site_index"></div>
+    </div>
+    <!-- <div class="w2ui-field">
+        <label>서버</label>
+        <div> <input type="text" name="server_index"></div>
+    </div> -->
+</div>
+<div class="w2ui-buttons w2ui-sensor-button">
+    <button class="w2ui-btn" name="reset" id="reset-btn">초기화</button>
+    <button class="w2ui-btn w2ui-btn-green" name="update" id="update-btn">수정</button>
+    <button class="w2ui-btn w2ui-btn-blue" name="save" id="search-btn">등록</button>
+
+</div>
