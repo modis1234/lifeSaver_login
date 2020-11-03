@@ -61,8 +61,7 @@ define([
 
 										var _server = record['address'];
 
-										location.replace('http://192.168.0.39:9092')
-										//location.replace(_server);
+										location.replace(_server);
 									}
 								},
 								btn_no: {

@@ -69,8 +69,7 @@ router.get('/', function (req, res, next) {
         let _sensorIndex = req.cookies['sensorIndex'];
 
         if (_sensorIndex) {
-          // res.redirect('http://192.168.0.39:3002');
-          res.render('main');
+=          res.render('main');
         } else {
           res.redirect('/logout');
         }
