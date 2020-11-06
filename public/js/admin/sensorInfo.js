@@ -31,12 +31,13 @@ define([
                 },
                 columns: [
                     { field: 'device_index', caption: '관리번호(S/N)', size: '20%', attr: "align=center" },
-                    { field: 'sensor_index', caption: 'PHPoC', size: '20%', attr: "align=center" },
                     { field: 'site_name', caption: '업체명', size: '30%', attr: "align=center" },
                     { field: 'version_text', caption: 'Ver.', size: '10%', attr: "align=center" },
                     { field: 'name', caption: '센서명', size: '15%', attr: "align=center" },
                     // { field: 'server_index', caption: '서버', size: '15%', attr: "align=center" },
                     { field: 'server_index', caption: '서버', size: '30%', attr: "align=center" },
+                    { field: 'fan_address', caption: 'FEN 이름', size: '15%', attr: "align=center" },
+                    { field: 'port', caption: 'PORT', size: '15%', attr: "align=center" },
                     { field: 'connect_button', caption: '바로가기', size: '15%', attr: "align=center" }
                 ],
                 records: undefined,
@@ -100,9 +101,18 @@ define([
                         var sel = grid.getSelection();
                         if (sel.length == 1) {
                             form.grid = sel[0];
-                            form.record = $.extend(true, {}, grid.get(sel[0]));
+                            var selectRow = grid.get(sel[0]);
+                            form.record = $.extend(true, {}, selectRow);
                             form.refresh();
-
+                            
+                            console.log(selectRow)
+                            var _version = selectRow['version']
+                            if(_version === 1){
+                                $('.cctv-w2ui-field').css('display', 'none');
+                            } else {
+                                $('.cctv-w2ui-field').css('display', 'block');
+                            }
+                            
                             $('#search-btn').css('display', 'none');
                             $('#update-btn').css('display', 'inline-block');
                             $('button#overlap-btn').css('display', 'none');
@@ -148,6 +158,8 @@ define([
                         var _deviceIndex = record['sensor_index'];
                         var _sensorIndex = record['sensor_index'];
                         var _name = record['name'];
+                        var _fanAddress = record['fan_address'];
+                        var _port = record['port'];
                         // var _serverIndex = record['server_index']['id'];
                         var _siteIndex = record['site_index']['id'];
                         var _serverIndex = record['site_index']['server'];
@@ -162,8 +174,8 @@ define([
                             $('input[name=name]').addClass('w2ui-error');
                             return false;
                         }
-                        var _doOverlapChecked = $('button#overlap-btn').attr('ischecked');
 
+                         var _doOverlapChecked = $('button#overlap-btn').attr('ischecked');
                         if (_doOverlapChecked === 'false') {
                             $('input[name=sensor_index]').w2tag('중복체크가 필요합니다.', { position: 'bottom' });
                             setTimeout(function () {
@@ -180,6 +192,9 @@ define([
                         recordObj['site_index'] = _siteIndex;
                         recordObj['version'] = _version;
                         recordObj['server_index'] = _serverIndex;
+                        recordObj['fan_address'] = _fanAddress;
+                        recordObj['port'] = _port;
+                        
 
                         var options = {
                             msg: "새로운 센서를 등록 하시겠습니까?",
@@ -214,6 +229,8 @@ define([
                         var _id = record['id'];
                         var _deviceIndex = record['sensor_index'];
                         var _sensorIndex = record['sensor_index'];
+                        var _fanAddress = record['fan_address'];
+                        var _port = record['port'];
                         var _name = record['name'];
                         // var _serverIndex = record['server_index']['id'];
                         var _siteIndex = record['site_index']['id'];
@@ -250,6 +267,8 @@ define([
                         recordObj['site_index'] = _siteIndex;
                         recordObj['version'] = _version;
                         recordObj['server_index'] = _serverIndex;
+                        recordObj['fan_address'] = _fanAddress;
+                        recordObj['port'] = _port;
 
                         var options = {
                             msg: "새로운 센서를 수정 하시겠습니까?",
@@ -280,10 +299,20 @@ define([
                 }, //end actions
                 onChange: function (event) {
                     var target = event.target;
+                    console.log(target)
                     if (target === 'sensor_index') {
                         var _sensorIndexValue = $('input#sensor_index').val();
                         _sensorIndexValue = _sensorIndexValue.toUpperCase();
                         $('input#sensor_index').val(_sensorIndexValue);
+                    } 
+                    else if(target === 'version'){
+                        var _version = $('input#version').val();
+                        if(_version.indexOf('LS-V2') > -1){
+                            $('.cctv-w2ui-field').css('display', 'block');
+                        } else {
+                            $('.cctv-w2ui-field').css('display', 'none');
+
+                        }
                     }
 
                 }
@@ -396,6 +425,8 @@ define([
                 { name: 'version', type: 'list', options: { items: _this.versionCombo } },
                 { name: 'name', type: 'text' },
                 { name: 'site_index', type: 'list', options: { items: window.main.view.siteCombo } },
+                { name: 'fan_address', type: 'text' },
+                { name: 'port', type: 'text' },
                 // { name: 'server_index', type: 'list', options: { items: window.main.view.serverCombo }}
             ];
             formOption['fields'] = _fields;
@@ -427,6 +458,8 @@ define([
             _this.$el.find('input#sensor_index').removeClass('w2ui-error');
 
             // _this.$el.find('input[name=server_index]').prop('readonly', false);
+
+            _this.$el.find('.cctv-w2ui-field').css('display', 'none');
 
         },
         initGrid: function () {

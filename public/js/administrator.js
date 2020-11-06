@@ -49,10 +49,10 @@ define([
                     {
                         id: 'setting', text: '관리자 설정', img: 'icon-folder', expanded: true, group: true, groupShowHide: false, collapsible: false,
                         nodes: [
-                            { id: 'siteInfo', text: '업체 관리', icon: 'fas fa-bell' },
-                            { id: 'account', text: '계정 관리', icon: 'fas fa-bell' },
-                            { id: 'sensorInfo', text: '센서장비 관리', icon: 'fas fa-bell' },
-                            { id: 'serverInfo', text: '서버 관리', icon: 'fas fa-bell' }
+                            { id: 'siteInfo', text: '업체 관리', icon: 'fas fa-building' },
+                            { id: 'account', text: '계정 관리', icon: 'fas fa-user-circle' },
+                            { id: 'sensorInfo', text: '센서장비 관리', icon: 'fas fa-desktop' },
+                            { id: 'serverInfo', text: '서버 관리', icon: 'fas fa-server' }
                         ]
                     }
                 ],

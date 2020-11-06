@@ -19,11 +19,13 @@ const _query = {
         let _version = _data.version ? `${_data.version}` : 0;
 
         let _description = _data.description ? `"${_data.description}"` : null;
+        let _fanAddress = _data.fan_address ? `"${_data.fan_address}"` : null;
+        let _port = _data.port ? `"${_data.port}"` : null;
 
 
         let query = `INSERT INTO info_sensor 
-                    (created_date, device_index, sensor_index, name, site_index, version, description)
-                    VALUE (${_createdDate}, ${_deviceIndex},${_sensorIndex}, ${_name}, ${_siteIndex}, ${_version}, ${_description});`;
+                    (created_date, device_index, sensor_index, name, site_index, version, description, fan_address, port)
+                    VALUE (${_createdDate}, ${_deviceIndex},${_sensorIndex}, ${_name}, ${_siteIndex}, ${_version}, ${_description}, ${_fanAddress}, ${_port});`;
         return query;
     },
     update(data) {
