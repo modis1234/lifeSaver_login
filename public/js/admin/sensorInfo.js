@@ -30,13 +30,15 @@ define([
                     selectColumn: true
                 },
                 columns: [
-                    { field: 'device_index', caption: '관리번호', size: '15%', attr: "align=center" },
-                    { field: 'site_name', caption: '사업장', size: '15%', attr: "align=center" },
+                    { field: 'device_index', caption: '관리번호(S/N)', size: '20%', attr: "align=center" },
+                    { field: 'site_name', caption: '업체명', size: '30%', attr: "align=center" },
                     { field: 'version_text', caption: 'Ver.', size: '10%', attr: "align=center" },
-                    { field: 'sensor_index', caption: 'PHPoC', size: '20%', attr: "align=center" },
                     { field: 'name', caption: '센서명', size: '15%', attr: "align=center" },
                     // { field: 'server_index', caption: '서버', size: '15%', attr: "align=center" },
-                    { field: 'address', caption: '접속주소', size: '30%', attr: "align=center" }
+                    { field: 'server_index', caption: '서버', size: '30%', attr: "align=center" },
+                    { field: 'fan_address', caption: 'FEN 이름', size: '15%', attr: "align=center" },
+                    { field: 'port', caption: 'PORT', size: '15%', attr: "align=center" },
+                    { field: 'connect_button', caption: '바로가기', size: '15%', attr: "align=center" }
                 ],
                 records: undefined,
                 toolbar: {
@@ -65,7 +67,7 @@ define([
                                         callBack: function () {
                                             for (var i in selectIdArr) {
                                                 var selectRow = grid.get(selectIdArr[i])
-                                              window.main.view.adminView.delete(selectRow);
+                                                window.main.view.adminView.delete(selectRow);
                                             }
                                         }
                                     },
@@ -98,16 +100,25 @@ define([
                     event.onComplete = function () {
                         var sel = grid.getSelection();
                         if (sel.length == 1) {
-                            form.grid = sel[0];                   
-                            form.record = $.extend(true, {}, grid.get(sel[0]));
+                            form.grid = sel[0];
+                            var selectRow = grid.get(sel[0]);
+                            form.record = $.extend(true, {}, selectRow);
                             form.refresh();
-
+                            
+                            console.log(selectRow)
+                            var _version = selectRow['version']
+                            if(_version === 1){
+                                $('.cctv-w2ui-field').css('display', 'none');
+                            } else {
+                                $('.cctv-w2ui-field').css('display', 'block');
+                            }
+                            
                             $('#search-btn').css('display', 'none');
                             $('#update-btn').css('display', 'inline-block');
                             $('button#overlap-btn').css('display', 'none');
                             $('button#reInput-btn').css('display', 'inline-block');
-                            $('input#sensor_index').prop('readonly',true);
-                            $('button#overlap-btn').attr('ischecked','true');
+                            $('input#sensor_index').prop('readonly', true);
+                            $('button#overlap-btn').attr('ischecked', 'true');
 
                             // $('input[name=server_index]').prop('readonly', true)
 
@@ -118,7 +129,7 @@ define([
                             window.main.view.adminView.initForm();
                             $('button#overlap-btn').css('display', 'inline-block');
                             $('button#reInput-btn').css('display', 'none');
-                            $('input#sensor_index').prop('readonly',false);
+                            $('input#sensor_index').prop('readonly', false);
 
                             // $('input[name=server_index]').prop('readonly', false)
 
@@ -147,24 +158,26 @@ define([
                         var _deviceIndex = record['sensor_index'];
                         var _sensorIndex = record['sensor_index'];
                         var _name = record['name'];
+                        var _fanAddress = record['fan_address'];
+                        var _port = record['port'];
                         // var _serverIndex = record['server_index']['id'];
                         var _siteIndex = record['site_index']['id'];
                         var _serverIndex = record['site_index']['server'];
                         var _version = record['version']['id'];
-                        if(!_sensorIndex){
+                        if (!_sensorIndex) {
                             $('input[name=sensor_index]').w2tag('센서인덱스를 입력하세요.');
                             $('input[name=sensor_index]').addClass('w2ui-error');
                             return false;
                         }
-                        if(!_name){
+                        if (!_name) {
                             $('input[name=name]').w2tag('센서명를 입력하세요.');
                             $('input[name=name]').addClass('w2ui-error');
                             return false;
                         }
-                        var _doOverlapChecked = $('button#overlap-btn').attr('ischecked');
 
+                         var _doOverlapChecked = $('button#overlap-btn').attr('ischecked');
                         if (_doOverlapChecked === 'false') {
-                            $('input[name=sensor_index]').w2tag('중복체크가 필요합니다.',{position:'bottom'});
+                            $('input[name=sensor_index]').w2tag('중복체크가 필요합니다.', { position: 'bottom' });
                             setTimeout(function () {
                                 $('input[name=sensor_index]').w2tag();
                             }, 1000);
@@ -179,6 +192,9 @@ define([
                         recordObj['site_index'] = _siteIndex;
                         recordObj['version'] = _version;
                         recordObj['server_index'] = _serverIndex;
+                        recordObj['fan_address'] = _fanAddress;
+                        recordObj['port'] = _port;
+                        
 
                         var options = {
                             msg: "새로운 센서를 등록 하시겠습니까?",
@@ -203,7 +219,7 @@ define([
                             },
                             callBack: null
                         };
-                        w2confirm(options); 
+                        w2confirm(options);
 
                     },
                     'update': function () {
@@ -213,6 +229,8 @@ define([
                         var _id = record['id'];
                         var _deviceIndex = record['sensor_index'];
                         var _sensorIndex = record['sensor_index'];
+                        var _fanAddress = record['fan_address'];
+                        var _port = record['port'];
                         var _name = record['name'];
                         // var _serverIndex = record['server_index']['id'];
                         var _siteIndex = record['site_index']['id'];
@@ -220,12 +238,12 @@ define([
 
                         var _version = record['version']['id'];
 
-                        if(!_sensorIndex){
+                        if (!_sensorIndex) {
                             $('input[name=sensor_index]').w2tag('센서인덱스를 입력하세요.');
                             $('input[name=sensor_index]').addClass('w2ui-error');
                             return false;
                         }
-                        if(!_name){
+                        if (!_name) {
                             $('input[name=name]').w2tag('센서명를 입력하세요.');
                             $('input[name=name]').addClass('w2ui-error');
                             return false;
@@ -233,7 +251,7 @@ define([
                         var _doOverlapChecked = $('button#overlap-btn').attr('ischecked');
 
                         if (_doOverlapChecked === 'false') {
-                            $('input[name=sensor_index]').w2tag('중복체크가 필요합니다.',{position:'bottom'});
+                            $('input[name=sensor_index]').w2tag('중복체크가 필요합니다.', { position: 'bottom' });
                             setTimeout(function () {
                                 $('input[name=sensor_index]').w2tag();
                             }, 1000);
@@ -249,6 +267,8 @@ define([
                         recordObj['site_index'] = _siteIndex;
                         recordObj['version'] = _version;
                         recordObj['server_index'] = _serverIndex;
+                        recordObj['fan_address'] = _fanAddress;
+                        recordObj['port'] = _port;
 
                         var options = {
                             msg: "새로운 센서를 수정 하시겠습니까?",
@@ -273,16 +293,26 @@ define([
                             },
                             callBack: null
                         };
-                        w2confirm(options); 
+                        w2confirm(options);
 
                     }
                 }, //end actions
                 onChange: function (event) {
                     var target = event.target;
-                    if(target === 'sensor_index'){
+                    console.log(target)
+                    if (target === 'sensor_index') {
                         var _sensorIndexValue = $('input#sensor_index').val();
                         _sensorIndexValue = _sensorIndexValue.toUpperCase();
                         $('input#sensor_index').val(_sensorIndexValue);
+                    } 
+                    else if(target === 'version'){
+                        var _version = $('input#version').val();
+                        if(_version.indexOf('LS-V2') > -1){
+                            $('.cctv-w2ui-field').css('display', 'block');
+                        } else {
+                            $('.cctv-w2ui-field').css('display', 'none');
+
+                        }
                     }
 
                 }
@@ -302,7 +332,7 @@ define([
         },
         initialize: function () {
             this.$el.html(HTML);
-      
+
             this.sensorModel = new SensorModel();
             this.listenTo(this.sensorModel, "sync", this.getSensorList);
             this.sensorModel.fetch();
@@ -313,16 +343,64 @@ define([
             'keypress input#tel': 'inputPhoneNumber',
             'click button#overlap-btn': 'overlapHandler',
             'click button#reInput-btn': 'reInputHandler'
+
+        },
+        connectHandler: function (event) {
+            var _this = this;
+            console.log("asfasfd-->", event)
+            var _recId = _this.$el.find(event).attr('recid');
+            var _gridName = _this.config.grid['name'];
+            var _record = window.w2ui[_gridName].get(_recId);
+            console.log(_record)
+            var _sensorIndex = _record['sensor_index'];
+            var _sensorName = _record['name'];
+            var _siteName = _record['site_name'];
+            var _version = _record['version']
+            console.log(_sensorName)
+            var options = {
+                msg: '<span class="popop-title">' + _siteName + '-' + _sensorName + '</span> <br/><br/>연결하시겠습니까?',
+                title: '연   결',
+                width: 250,
+                height: 220,
+                btn_yes: {
+                    text: '연결',
+                    class: '',
+                    style: 'background-image:linear-gradient(#73b6f0 0,#2391dd 100%); color: #fff',
+                    callBack: function () {
+                        document.cookie = "sensorIndex=" + _sensorIndex;
+                        document.cookie = "sensorName=" + escape(_sensorName);
+                        document.cookie = "siteName=" + escape(_siteName);
+                        document.cookie = "version=" + _version;
+
+                        var _server = _record['address'];
+                       // var _server = 'http://192.168.0.39:9092'
+                       console.log(_server)
+                        location.replace(_server);
+                    }
+                },
+                btn_no: {
+                    text: '취소',
+                    class: '',
+                    style: '',
+                    callBack: function () {
+                    }
+                },
+                callBack: null
+            };
+            w2confirm(options);
+
         },
         getSensorList: function (model, response) {
             var _this = this;
             var result = response;
             var _versionCombo = window.main.view.versionCombo;
             for (i in result) {
+                console.log(result[i])
+                result[i]['connect_button'] = '<a class="connect_btn" recid="' + result[i]['id'] + '" onClick="window.main.view.adminView.connectHandler(this)" ><i class="fas fa-link"></i></a>'
                 var version = result[i]['version'];
-                for(j in _versionCombo){
+                for (j in _versionCombo) {
                     var _id = _versionCombo[j]['id'];
-                    if(version === _id){
+                    if (version === _id) {
                         result[i]['version_text'] = _versionCombo[j]['text'];
                     }
                 }
@@ -346,7 +424,9 @@ define([
                 { name: 'sensor_index', type: 'text' },
                 { name: 'version', type: 'list', options: { items: _this.versionCombo } },
                 { name: 'name', type: 'text' },
-                { name: 'site_index', type: 'list', options: { items: window.main.view.siteCombo }},
+                { name: 'site_index', type: 'list', options: { items: window.main.view.siteCombo } },
+                { name: 'fan_address', type: 'text' },
+                { name: 'port', type: 'text' },
                 // { name: 'server_index', type: 'list', options: { items: window.main.view.serverCombo }}
             ];
             formOption['fields'] = _fields;
@@ -361,8 +441,8 @@ define([
         initForm: function () {
             var _this = this;
             _this.$el.find('input[name=version]').w2field().setIndex(0);
-           _this.$el.find('input[name=site_index]').w2field().setIndex(0);
-        //    _this.$el.find('input[name=server_index]').w2field().setIndex(0);
+            _this.$el.find('input[name=site_index]').w2field().setIndex(0);
+            //    _this.$el.find('input[name=server_index]').w2field().setIndex(0);
 
             // $('.w2ui-btn-blue').prop('disabled', true);
             _this.$el.find('#search-btn').css('display', 'inline-block');
@@ -378,6 +458,8 @@ define([
             _this.$el.find('input#sensor_index').removeClass('w2ui-error');
 
             // _this.$el.find('input[name=server_index]').prop('readonly', false);
+
+            _this.$el.find('.cctv-w2ui-field').css('display', 'none');
 
         },
         initGrid: function () {
@@ -450,7 +532,7 @@ define([
 
                 },
             });
-        },   
+        },
         overlapHandler: function () {
             var _this = this;
             var obj = {};

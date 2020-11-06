@@ -45,7 +45,7 @@ define([
 
 							var options = {
 								msg: '<span class="popop-title">'+_siteName+'-'+_sensorName+'</span> <br/><br/>연결하시겠습니까?',
-								title: '계정 삭제',
+								title: '연   결',
 								width: 250,
 								height: 220,
 								btn_yes: {

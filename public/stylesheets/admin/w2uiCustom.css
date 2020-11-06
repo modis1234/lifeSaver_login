@@ -138,3 +138,7 @@ div#w2ui-popup * {
 .bottom-right-box input.w2ui-select.w2field {
     width: 180px !important;
 }
+
+.w2ui-field.cctv-w2ui-field.cctv-w2ui-label > div {
+    margin-left: 90px;
+}

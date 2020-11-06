@@ -24,7 +24,11 @@ let requestDate = {
             postObj['site_index'] = data['site_index']
             postObj['name'] = data['name']
             postObj['version'] = data['version']
-            
+            if(data['version'] !== 1){
+                postObj['fan_address'] = data['fan_address']
+                postObj['port'] = data['port']
+            }
+            console.log('-->',postObj)
             let postURL = _getData.serverList[data['server_index']]+'/sensor/sensors/';
             request.post({
                 url: postURL,
@@ -51,6 +55,11 @@ let requestDate = {
             putObj['site_index'] = data['site_index']
             putObj['name'] = data['name']
             putObj['version'] = data['version']
+            putObj['version'] = data['version']
+            if(data['version'] !== 1){
+                putObj['fan_address'] = data['fan_address']
+                putObj['port'] = data['port']
+            }
 
             let putURL = _getData.serverList[data['server_index']]+'/sensor/sensors/'+ params;
             request.put({
@@ -134,6 +143,7 @@ router.post('/sensors', (req, res, next) => {
     let date = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
     reqBody['createdDate'] = date;
     let _serverIndex = reqBody['server_index']
+    console.log(reqBody)
     let _query = queryconfig.insert(reqBody) + serverQueryConfig.plusNumber(_serverIndex);
     pool.getConnection((err, connection) => {
         if (err) {
