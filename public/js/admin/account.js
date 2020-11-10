@@ -36,10 +36,10 @@ define([
                 // ],
                 columns: [
                     { field: 'role_text', caption: '권한', size: '10%', attr: "align=center" },
-                    { field: 'site_index', caption: '현장번호', size: '15%', attr: "align=center" },
-                    { field: 'site_name', caption: '현장명', size: '15%', attr: "align=center" },
+                    // { field: 'site_index', caption: '현장번호', size: '15%', attr: "align=center" },
+                    { field: 'site_name', caption: '현장명', size: '20%', attr: "align=center" },
                     { field: 'user_id', caption: '아이디', size: '15%', attr: "align=center" },
-                    { field: 'name', caption: '이름', size: '10%', attr: "align=center" },
+                    { field: 'name', caption: '이름', size: '15%', attr: "align=center" },
                     { field: 'tel', caption: '연락처', size: '20%', attr: "align=center" },
                     { field: 'mail', caption: '메일', size: '25%', attr: "align=center" }
                 ],
@@ -113,7 +113,9 @@ define([
                             $('.w2ui-account-form .w2ui-field:nth-child(6)').css('display', 'none');
                             $('input#user_id').prop('readonly', true);
                             $('button#overlap-btn').css('display', 'none');
-
+                            $('button#pw-change-btn').css('display', 'inline-block')
+                            $('input#user_id').w2tag();
+                            $('input.w2ui-input').removeClass('w2ui-error');
                         } else {
                             form.clear();
                             // $('.w2ui-btn-blue').prop('disabled', true);
@@ -121,7 +123,7 @@ define([
                             window.main.view.adminView.initForm();
                             $('input#user_id').prop('readonly', false);
                             $('button#overlap-btn').css('display', 'inline-block');
-
+                            $('button#pw-change-btn').css('display', 'none')
                         }
                     }
                 }
@@ -270,6 +272,22 @@ define([
                         recordObj['mail'] = _mail;
                         recordObj['site_index'] = _siteIndex;
 
+                        var passwordChangeTF = $('.w2ui-account-form .w2ui-field:nth-child(5)').css('display');
+                        if(passwordChangeTF === 'block'){
+                            var _password = record['password'] || null;
+                            if (!_password) {
+                                $('input[name=password]').w2tag('비밀번호를 입력하세요.');
+                                $('input[name=password]').addClass('w2ui-error');
+                                return false;
+                            }
+                            if (!_password) {
+                                $('input[name=password_chk]').w2tag('비밀번호 확인이 필요합니다.');
+                                $('input[name=password_chk]').addClass('w2ui-error');
+                                return false;
+                            }
+                            recordObj['password'] = _password
+                        }
+
                         var options = {
                             msg: _name+"계정를 수정 하시겠습니까?",
                             title: '계정 수정',
@@ -339,7 +357,8 @@ define([
         events: {
             'keypress input#tel': 'inputPhoneNumber',
             'click button#overlap-btn': 'overlapHandler',
-            'click button#reInput-btn': 'reInputHandler'
+            'click button#reInput-btn': 'reInputHandler',
+            'click button#pw-change-btn': 'authPopupOpen'
         },
         getAccountList: function (model, response) {
             var _this = this;
@@ -480,6 +499,11 @@ define([
                     var gridName = _this.config.grid['name'];
                     window.w2ui[gridName].set(obj['id'], obj);
                    // _this.initForm();
+                   $('.w2ui-account-form .w2ui-field:nth-child(5)').css('display', 'none');
+                   $('.w2ui-account-form .w2ui-field:nth-child(6)').css('display', 'none');
+                   $('input#password').val('');
+                   $('input#password_chk').val('');
+                   $('.w2ui-account-form #pw-change-btn').css('display', 'inline-block');
 
                 },
                 error: function (model, response) {
@@ -562,6 +586,54 @@ define([
             _this.$el.find('button#reInput-btn').css('display', 'none');
 
             _this.$el.find('#overlap-success').css('display', 'none');
+
+        },
+        authPopupOpen: function(){
+            w2popup.open({
+                width     : 500,
+                height    : 200,
+                title: '관리자 인증',
+                body: '<div class="w2ui-centered"><div class="popup-top-area"><label>관리자 비밀번호: </label>&nbsp&nbsp<input type="password" class="w2ui-input" id="auth-input" placeholder="관리자 인증이 필요합니다."></div>'
+                        +'<div class="popup-bottom-area" style="margin-top:5px;  display:none;"><span style="color:#ff0000; font-size:13px !important;">** 인증되지 않았습니다. 다시 입력하세요. **</span></div></div>',
+                buttons: '<button class="w2ui-btn w2ui-btn-blue" id="auth-btn" style="color:#ffffff" onclick="window.main.view.adminView.authHandler(this)">인증</button>',
+                showMax: false
+            });
+        },
+        authHandler: function(event){
+            var _this = this;
+            var pw = $('#auth-input').val();
+            if(!pw){
+                $('input#auth-input').w2tag('비밀번호를 입력하세요.');
+                $('input#auth-input').focus();
+                return false
+            }
+            var obj = {}
+            obj['user_id'] = window.main.userId;
+            obj['password'] = pw
+            var model = new AccountModel();
+            model.url += '/auth'
+            model.set(obj);
+            model.save({}, {
+                success: function (modle, response) {
+                    var result = response;
+                    console.log(result)
+                    var _auth = result['auth']
+                    if(_auth){
+                        window.w2popup.close();
+                        $('.w2ui-account-form .w2ui-field:nth-child(5)').css('display', 'block');
+                        $('.w2ui-account-form .w2ui-field:nth-child(6)').css('display', 'block');
+                        $('.w2ui-account-form #pw-change-btn').css('display', 'none');
+
+                    } else {
+                        $('.popup-bottom-area').css('display','block')
+                      
+                    }
+
+                },
+                error: function () {
+
+                }
+            });
 
         },
         inputPhoneNumber: function (event) {

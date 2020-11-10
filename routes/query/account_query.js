@@ -46,6 +46,34 @@ const _query = {
                      WHERE id=${_id}`;
         return query;
     },
+    isPwUpdate(data) {
+        let _data = data;
+        let _id = _data.id;
+        let _modifiedDate = _data.modifiedDate?  `"${_data.modifiedDate}"`: null;
+        let _name = _data.name ? `"${_data.name}"` : null;
+        let _userId = _data.user_id ? `"${_data.user_id}"` : null;
+        let _tel = _data.tel ? `"${_data.tel}"` : null;
+        let _mail = _data.mail ? `"${_data.mail}"` : null;
+        let _department = _data.department ? `"${_data.department}"` : null;
+        let _role = _data.role;
+        let _siteIndex= _data.site_index?`"${_data.site_index}"` : null;
+        let _description = _data.description?`"${_data.description}"` : null;
+        let _password = _data.password?`"${_data.password}"` : null;
+
+        let query = `UPDATE account SET 
+                     modified_date=${_modifiedDate}, 
+                     user_id=${_userId}, 
+                     name=${_name}, 
+                     tel=${_tel}, 
+                     mail=${_mail}, 
+                     department=${_department}, 
+                     role=${_role}, 
+                     site_index=${_siteIndex}, 
+                     description=${_description},
+                     password=${_password}
+                     WHERE id=${_id}`;
+        return query;
+    },
     delete(id) {
         let query = `DELETE FROM account WHERE id=${id}`;
         return query;
@@ -63,7 +91,15 @@ const _query = {
         var query = `SELECT id, COUNT(*) AS count FROM account WHERE user_id = "${_userId}";`;
   
         return query;
-     }
+     },
+     auth: function(data){
+        var _userId = data.user_id;
+        var _password = data.password;
+
+        let query = `SELECT id, COUNT(*) AS count FROM account WHERE user_id="${_userId}" and password="${_password}";`;
+        
+        return query
+    }
 }
 
 module.exports = _query;

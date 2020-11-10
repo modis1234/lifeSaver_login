@@ -86,6 +86,12 @@ button#overlap-btn:hover {
 .w2ui-account-form input#user_id {
     width: 181px !important;
 }
+/* input#auth-input::placeholder {
+    font-size: 10px;
+} */
+.popup-top-area input#auth-input {
+    width: 225px;
+}
 
 /* siteInfo */
 
