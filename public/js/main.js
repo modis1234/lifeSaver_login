@@ -16,12 +16,14 @@ define([
 	return Backbone.View.extend({
 		el: 'body',
 		view: undefined,
+		userId: undefined,
 		initialize: function () {
 			var _cookie = document.cookie;
 			if(_cookie){
 				var logStr = this.getCookie('login');
 				logStr = logStr.substr(2, logStr.length - 1);
 				var _loginObj = JSON.parse(logStr)
+				this.userId = _loginObj['user_id']
 				var role = _loginObj['role'];
 				if(role === 0){
 					this.adminRender();

@@ -78,11 +78,18 @@ router.put('/accounts/:id', (req, res, next) => {
     let date = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
     reqBody['modifiedDate'] = date;
 
-    // let _password = reqBody['password'];
-    // let securityPW = crypto.createHash('sha512').update(_password).digest('base64');
-    // reqBody['password'] = securityPW;
+    let _query;
+    let hasPassword = reqBody.hasOwnProperty('password');
+    if(hasPassword){
+        let _password = reqBody['password'];
+        let securityPW = crypto.createHash('sha512').update(_password).digest('base64');
+        reqBody['password'] = securityPW;
+        _query = queryconfig.isPwUpdate(reqBody);
 
-    let _query = queryconfig.update(reqBody);
+    } else {
+        _query = queryconfig.update(reqBody);
+    }
+
     pool.getConnection((err, connection) => {
         if (err) {
             res.status(400).end();
@@ -157,6 +164,43 @@ router.post('/accounts/checked', (req, res, next) => {
 
         }
     });
+});
+
+router.post('/accounts/auth', (req, res, next)=>{
+    let reqBody = req.body;
+    let _password = reqBody['password'];
+    let securityPW = crypto.createHash('sha512').update(_password).digest('base64');
+    reqBody['password'] = securityPW;
+    console.log(reqBody)
+    let _query = queryconfig.auth(reqBody);
+    console.log(_query)
+    pool.getConnection((err, connection) => {
+        if (err) {
+            res.status(400).end();
+            throw err;
+        } else {
+            connection.query(_query, (err, results) => {
+                if (err) {
+                    res.status(404).end();
+                    throw err;
+                } else {
+                    console.log(results)
+                    let resObj = results[0];
+                    var count = resObj['count'];
+                    if(count>0){
+                        resObj['auth'] = true;
+                    } else {
+                        resObj['auth'] = false;
+                    } 
+                    res.json(resObj);
+                }
+            });
+            connection.release();
+
+        }
+    });
+
+
 });
 
 
