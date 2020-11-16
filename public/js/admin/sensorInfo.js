@@ -375,7 +375,8 @@ define([
                         var _server = _record['address'];
                        // var _server = 'http://192.168.0.39:9092'
                        console.log(_server)
-                        location.replace(_server);
+                        //location.replace(_server);
+                        location.href=_server 
                     }
                 },
                 btn_no: {
