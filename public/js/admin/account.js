@@ -593,11 +593,17 @@ define([
                 width     : 500,
                 height    : 200,
                 title: '관리자 인증',
-                body: '<div class="w2ui-centered"><div class="popup-top-area"><label>관리자 비밀번호: </label>&nbsp&nbsp<input type="password" class="w2ui-input" id="auth-input" placeholder="관리자 인증이 필요합니다."></div>'
+                body: '<div class="w2ui-centered"><div class="popup-top-area"><label>관리자 비밀번호: </label>&nbsp&nbsp<input type="password" class="w2ui-input" id="auth-input" onKeyDown="window.main.view.adminView.authAction()" placeholder="관리자 인증이 필요합니다."></div>'
                         +'<div class="popup-bottom-area" style="margin-top:5px;  display:none;"><span style="color:#ff0000; font-size:13px !important;">** 인증되지 않았습니다. 다시 입력하세요. **</span></div></div>',
                 buttons: '<button class="w2ui-btn w2ui-btn-blue" id="auth-btn" style="color:#ffffff" onclick="window.main.view.adminView.authHandler(this)">인증</button>',
                 showMax: false
             });
+        },
+        authAction: function(){
+            var _this = this;
+            if(window.event.keyCode == 13) {
+                _this.authHandler();
+            }
         },
         authHandler: function(event){
             var _this = this;
