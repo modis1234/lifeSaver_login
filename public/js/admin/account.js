@@ -397,7 +397,7 @@ define([
             var formOption = _this.config.form;
             var _fields = [
                 { name: 'role_text', type: 'list', options: { items: _this.roleCombo }, html: { caption: '권한' } },
-                { name: 'site_index', type: 'list', options: { items: window.main.view['siteCombo'] }, html: { caption: '현장' } },
+                { name: 'site_index', type: 'list', options: { items: window.main.view['siteCombo'], match:'contains' }, html: { caption: '현장' } },
                 { name: 'user_id', type: 'text', html: { caption: '아이디', attr: 'style="width: 360px;" ' } },
                 { name: 'password', type: 'pass', html: { caption: '비밀번호' } },
                 { name: 'password_chk', type: 'password', html: { caption: '비밀번호확인' } },
@@ -419,8 +419,8 @@ define([
             $('#error_text').css('display', 'none');
             $('#user_id').removeClass('w2ui-error');
             $('#password_chk').removeClass('w2ui-error');
-            $('#role_text').w2field().setIndex(0);
-            $('#site_index').w2field().setIndex(0);
+            $('#role_text').w2field().setIndex(1);
+            $('#site_index').w2field().setIndex(1);
 
             _this.$el.find('button#overlap-btn').css('display', 'inline-block');
             _this.$el.find('button#overlap-btn').attr('ischecked', "false");
