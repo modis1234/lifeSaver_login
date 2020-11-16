@@ -425,7 +425,7 @@ define([
                 { name: 'sensor_index', type: 'text' },
                 { name: 'version', type: 'list', options: { items: _this.versionCombo } },
                 { name: 'name', type: 'text' },
-                { name: 'site_index', type: 'list', options: { items: window.main.view.siteCombo } },
+                { name: 'site_index', type: 'list', options: { items: window.main.view.siteCombo, match:'contains' } },
                 { name: 'fan_address', type: 'text' },
                 { name: 'port', type: 'text' },
                 // { name: 'server_index', type: 'list', options: { items: window.main.view.serverCombo }}
