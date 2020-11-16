@@ -146,6 +146,7 @@ define([
 
 						var _loginSuccess = result['success'] ? result['success'] : null;
 						if (_loginSuccess) {
+							window.main.userId = result['id']
 							window.main.adminRender();
 
 						} else {

@@ -39,6 +39,9 @@ const _query = {
         let _version = _data.version ? `${_data.version}` : 0;
         let _description = _data.description ? `"${_data.description}"` : null;
 
+        let _fanAddress = _data.fan_address ? `"${_data.fan_address}"` : null;
+        let _port = _data.port ? `"${_data.port}"` : null;
+
         let query = `UPDATE info_sensor SET 
                      modified_date=${_modifiedDate},
                      device_index=${_deviceIndex}, 
@@ -46,8 +49,10 @@ const _query = {
                      name=${_name}, 
                      site_index=${_siteIndex}, 
                      version=${_version}, 
-                     description=${_description}
-                     WHERE id=${_id}`;
+                     description=${_description},
+                     fan_address=${_fanAddress},
+                     port=${_port}
+                     WHERE id=${_id};`;
 
         return query;
     },

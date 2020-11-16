@@ -30,6 +30,7 @@ let requestDate = {
             }
             console.log('-->',postObj)
             let postURL = _getData.serverList[data['server_index']]+'/sensor/sensors/';
+            //let postURL = 'http://192.168.0.39:9092/sensor/sensors/';
             request.post({
                 url: postURL,
                 body: postObj,
@@ -55,13 +56,13 @@ let requestDate = {
             putObj['site_index'] = data['site_index']
             putObj['name'] = data['name']
             putObj['version'] = data['version']
-            putObj['version'] = data['version']
             if(data['version'] !== 1){
                 putObj['fan_address'] = data['fan_address']
                 putObj['port'] = data['port']
             }
 
-            let putURL = _getData.serverList[data['server_index']]+'/sensor/sensors/'+ params;
+            //let putURL = _getData.serverList[data['server_index']]+'/sensor/sensors/'+ params;
+            let putURL = 'http://192.168.0.39:9092/sensor/sensors/'+ params;
             request.put({
                 url: putURL,
                 body: putObj,
